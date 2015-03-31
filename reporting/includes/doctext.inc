@@ -22,7 +22,8 @@
 	$Addr2 = array(
 			'title' => _("Delivered To"),
 			'name' => @$this->formData['deliver_to'],
-			'address' => @$this->formData['delivery_address']
+			'address' => @$this->formData['delivery_address'],
+			'contact'=> @$this->formData['contact']
 	);
 
 	// default item column headers
@@ -121,6 +122,9 @@
 				_("Delivery Note No.") => implode(',', $deliveries),
 				_("Due Date") => sql2date($this->formData['due_date']),
 			);
+
+			$this->headers = array(_("No"), _("Product"), _("Rate"), _("Qty"), _("Unit"), _("Tax"), _("Amt Aft Tax"));
+
 			break;
 
 		case ST_SUPPAYMENT:

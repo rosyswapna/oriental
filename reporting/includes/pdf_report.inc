@@ -664,6 +664,24 @@ class FrontReport extends Cpdf
 		$this->SetDrawColor($oldDrawColor[0], $oldDrawColor[1], $oldDrawColor[2]);		
 	}
 
+	function Header4()
+	{
+		global $path_to_root, $print_as_quote,
+			$print_invoice_no, $packing_slip, $dflt_lang; // FIXME should be passed as params
+
+		$doctype = $this->formData['doctype'];
+		
+		$this->SetLang(@$this->formData['rep_lang'] ? $this->formData['rep_lang']
+ 			: ($_SESSION["wa_current_user"]->prefs->language ? $_SESSION["wa_current_user"]->prefs->language : $dflt_lang));
+
+ 		 // leave layout files names without path to enable including
+ 		 // modified versions from company/x/reporting directory
+		include("includes/doctext.inc");
+		include("includes/header4.inc");
+
+		$this->row = $temp;
+	}
+
 	/**
 	 * Format a numeric string date into something nicer looking.
 	 *
