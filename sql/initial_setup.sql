@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 24, 2015 at 05:11 PM
+-- Generation Time: Feb 27, 2015 at 01:43 PM
 -- Server version: 5.5.40
 -- PHP Version: 5.3.10-1ubuntu3.15
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `ostrich_ac`
+-- Database: `oriental`
 --
 
 -- --------------------------------------------------------
@@ -484,7 +484,8 @@ INSERT INTO `0_currencies` (`currency`, `curr_abrev`, `curr_symbol`, `country`, 
 ('US Dollars', 'USD', '$', 'United States', 'Cents', 1, 0),
 ('CA Dollars', 'CAD', '$', 'Canada', 'Cents', 1, 0),
 ('Euro', 'EUR', '?', 'Europe', 'Cents', 1, 0),
-('Pounds', 'GBP', '?', 'England', 'Pence', 1, 0);
+('Pounds', 'GBP', '?', 'England', 'Pence', 1, 0),
+('Indian Rupee', 'INR', '?', 'India', 'Rupees', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -1574,18 +1575,18 @@ CREATE TABLE IF NOT EXISTS `0_sys_prefs` (
 --
 
 INSERT INTO `0_sys_prefs` (`name`, `category`, `type`, `length`, `value`) VALUES
-('coy_name', 'setup.company', 'varchar', 60, 'OSTRICHTOURSINDIA PVT LTD'),
+('coy_name', 'setup.company', 'varchar', 60, 'Oriental House'),
 ('gst_no', 'setup.company', 'varchar', 25, ''),
 ('coy_no', 'setup.company', 'varchar', 25, ''),
 ('tax_prd', 'setup.company', 'int', 11, '1'),
 ('tax_last', 'setup.company', 'int', 11, '1'),
-('postal_address', 'setup.company', 'tinytext', 0, 'N/A'),
-('phone', 'setup.company', 'varchar', 30, ''),
+('postal_address', 'setup.company', 'tinytext', 0, 'Bank Junction, Edapally, Edapally, Ernakulam - 682024, Opp. PostOffice '),
+('phone', 'setup.company', 'varchar', 30, '+(91)-484-2344502'),
 ('fax', 'setup.company', 'varchar', 30, ''),
 ('email', 'setup.company', 'varchar', 100, ''),
 ('coy_logo', 'setup.company', 'varchar', 100, ''),
 ('domicile', 'setup.company', 'varchar', 55, ''),
-('curr_default', 'setup.company', 'char', 3, 'USD'),
+('curr_default', 'setup.company', 'char', 3, 'INR'),
 ('use_dimension', 'setup.company', 'tinyint', 1, '1'),
 ('f_year', 'setup.company', 'int', 11, '6'),
 ('no_item_list', 'setup.company', 'tinyint', 1, '0'),
@@ -1847,7 +1848,7 @@ CREATE TABLE IF NOT EXISTS `0_users` (
 --
 
 INSERT INTO `0_users` (`id`, `user_id`, `password`, `real_name`, `role_id`, `phone`, `email`, `language`, `date_format`, `date_sep`, `tho_sep`, `dec_sep`, `theme`, `page_size`, `prices_dec`, `qty_dec`, `rates_dec`, `percent_dec`, `show_gl`, `show_codes`, `show_hints`, `last_visit_date`, `query_size`, `graphic_links`, `pos`, `print_profile`, `rep_popup`, `sticky_doc_date`, `startup_tab`, `inactive`) VALUES
-(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Administrator', 2, '', 'adm@adm.com', '', 0, 0, 0, 0, 'default', 'Letter', 2, 2, 4, 1, 1, 0, 0, '2015-02-24 12:35:54', 10, 1, 1, '1', 1, 0, 'orders', 0);
+(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Administrator', 2, '', 'adm@adm.com', '', 0, 0, 0, 0, 'default', 'Letter', 2, 2, 4, 1, 1, 0, 0, '2015-02-27 09:11:57', 10, 1, 1, '1', 1, 0, 'orders', 0);
 
 -- --------------------------------------------------------
 
