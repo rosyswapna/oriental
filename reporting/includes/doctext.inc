@@ -106,7 +106,9 @@
 			$this->title = _("INVOICE");
 			$this->formData['document_name'] =_("Invoice No.");
 			$this->formData['domicile'] = $this->company['domicile'];
-			$Footer[0] = _("Please quote Invoice no. when paying. All amounts stated in"). " - " . $this->formData['curr_code'];
+			//$Footer[0] = _("Please quote Invoice no. when paying. All amounts stated in"). " - " . $this->formData['curr_code'];
+			$Footer['DECLARATION'] = _("Certified that all the particulars shown in the above tax invoice are true and correct in all respects and goods on which tax charged and collected are in accordance with the provisions of the KVAT ACT 2003 and the rules made there under. It is also certified that my our registration under KVAT act 2003 is not subject to any suspension/Cancellation and it is valid as on the date of the bill.");
+			
 
 			$deliveries = get_sales_parent_numbers(ST_SALESINVOICE, $this->formData['trans_no']);
 			if ($print_invoice_no == 0)

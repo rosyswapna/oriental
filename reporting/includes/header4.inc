@@ -29,7 +29,7 @@
 		$iline2 = $iline1 - 1.5 * $this->lineHeight;
 		$iline3 = $iline2 - 30.5 * $this->lineHeight;
 		
-		$iline4 = $lower;
+		$iline4 = $lower+20;
 		$right = $this->pageWidth - $this->rightMargin;
 		$width = ($right - $this->leftMargin) / 5;
 		$icol = $this->pageWidth / 2;
@@ -94,11 +94,8 @@
 
 		$this->Line($iline1);		  
 		$this->Line($iline2);
-
 		$this->Line($iline3);
 		$this->Line($iline4);
-		 
-		
 	
 		// Line headers
 		$this->row = $iline1 - $this->lineHeight - 1;
@@ -110,27 +107,26 @@
 		$this->Font();
 
 		// Footer
-		$this->Font('italic');
 		$this->row = $iline4 - $this->lineHeight - 6;
-
 		foreach ($Footer as $line => $txt)
 		{
 			if (!is_numeric($line))	// title => link
 			{
-				$this->fontSize -= 2;
-				$this->TextWrap($ccol, $this->row, $right - $ccol, $line, 'C');
+				$this->Font('bold');
+				$this->Text($ccol,  $line, 'L');
+				$this->Font();
 				$this->row -= $this->lineHeight;
-				$this->SetTextColor(0, 0, 255);
-				$this->TextWrap($ccol, $this->row, $right - $ccol, $txt, 'C');
-				$this->SetTextColor(0, 0, 0);
-				$this->addLink($txt, $ccol, $this->row, $this->pageWidth - $this->rightMargin, $this->row + $this->lineHeight);
-				$this->fontSize += 2;
-			}
-			else
-				$this->TextWrap($ccol, $this->row, $right - $ccol, $txt, 'C');
-			$this->row -= $this->lineHeight;
-
+				$this->fontSize -= 1;
+				$this->TextWrapLines($ccol, $right - $ccol, ' '.$txt,'left');
+				$this->fontSize += 1;
+				
+			}				
 		}
+
+		$this->TextCol(3,6, 'For '.$this->company['coy_name']);
+		$this->NewLine(4);
+		$this->TextCol(0,2, 'Prepared By');
+		$this->TextCol(3,6, 'Authorised Signature');
 
 		$this->Font();
 		$temp = $iline2 - $this->lineHeight - 2;
