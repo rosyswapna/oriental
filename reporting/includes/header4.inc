@@ -25,11 +25,7 @@
 
 		$upper = $this->row - 2 * $this->lineHeight;
 		$lower = $this->bottomMargin + 8 * $this->lineHeight;
-		$iline1 = $upper - 10.5 * $this->lineHeight;
-		$iline2 = $iline1 - 1.5 * $this->lineHeight;
-		$iline3 = $iline2 - 30.5 * $this->lineHeight;
 		
-		$iline4 = $lower+20;
 		$right = $this->pageWidth - $this->rightMargin;
 		$width = ($right - $this->leftMargin) / 5;
 		$icol = $this->pageWidth / 2;
@@ -60,9 +56,9 @@
 		$this->NewLine();
 		$this->TextWrap($ccol, $this->row, $this->pageWidth - $this->rightMargin - $ccol - 20, 'CASH/CREDIT BILL', 'center');
 		$this->NewLine();
-		$this->TextWrap($ccol, $this->row, $this->pageWidth - $this->rightMargin - $ccol - 20, 'Duplicate Copy', 'center');
+		//$this->TextWrap($ccol, $this->row, $this->pageWidth - $this->rightMargin - $ccol - 20, 'Duplicate Copy', 'center');
 
-		$this->Text($ccol, 'TIN :', $icol);
+		$this->Text($ccol, 'TIN : 32071247122', $icol);
 		$this->NewLine();
 		$this->Text($ccol, 'Bill No', $icol);
 		$this->Text($c2col, ': '.$this->formData['document_number'], $icol);
@@ -90,6 +86,16 @@
 		$this->NewLine();
 		$this->Text($mcol2, 'VECH NO : '.$Addr2['contact'], $icol);
 		
+		//$iline1 = $upper - 10.5 * $this->lineHeight;
+		//$iline2 = $iline1 - 1.5 * $this->lineHeight;
+		//$iline3 = $iline2 - 30.5 * $this->lineHeight;
+		//$iline4 = $lower+20;
+		$this->NewLine(2);
+		$iline1 = $this->row;
+		$iline2 = $iline1 - 1.5 * $this->lineHeight;
+		$iline3 = $iline2 - 30.5 * $this->lineHeight;
+		
+		$iline4 = $lower+20;
 		
 
 		$this->Line($iline1);		  
