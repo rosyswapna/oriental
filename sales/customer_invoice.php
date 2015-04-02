@@ -85,7 +85,11 @@ if (isset($_GET['AddedID'])) {
 
 	display_note(get_trans_view_str(ST_SALESINVOICE, $invoice_no, _("&View This Invoice")));
 	echo '<br>';
-	display_note(print_document_link($invoice_no."-".$trans_type, _("&Print This Invoice"), true, ST_SALESINVOICE));
+	//display_note(print_document_link($invoice_no."-".$trans_type, _("&Print This Invoice"), true, ST_SALESINVOICE));
+	submenu_print(_("&Print Original Copy"), ST_SALESINVOICE, $invoice_no."-".ST_SALESINVOICE, 'prtopt_org');
+	submenu_print(_("&Print Duplicate Copy"), ST_SALESINVOICE, $invoice_no."-".ST_SALESINVOICE, 'prtopt_dup');
+	submenu_print(_("&Print Customer Copy"), ST_SALESINVOICE, $invoice_no."-".ST_SALESINVOICE, 'prtopt_cst');
+	
 	display_note(print_document_link($invoice_no."-".$trans_type, _("&Email This Invoice"), true, ST_SALESINVOICE, false, "printlink", "", 1),1);
 
 	hyperlink_no_params($path_to_root . "/sales/inquiry/customer_inquiry.php", _("Select Another &Invoice to Modify"));
