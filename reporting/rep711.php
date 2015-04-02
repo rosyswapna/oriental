@@ -44,6 +44,7 @@ function print_invoices()
 	$comments = $_POST['PARAM_5'];
 	$customer = $_POST['PARAM_6'];
 	$orientation = $_POST['PARAM_7'];
+	$copy_for = $_GET['PARAM_8'];
 
 	if (!$from || !$to) return;
 
@@ -94,6 +95,8 @@ function print_invoices()
 			$rep->currency = $cur;
 			$rep->Font();
 			$rep->Info($params, $cols, null, $aligns);
+			$rep->copyFOR = $copy_for;
+
 
 			$contacts = get_branch_contacts($branch['branch_code'], 'invoice', $branch['debtor_no'], true);
 			$baccount['payment_service'] = $pay_service;

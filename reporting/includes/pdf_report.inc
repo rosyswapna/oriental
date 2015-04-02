@@ -67,7 +67,9 @@ class FrontReport extends Cpdf
 	var $formData; // common data used for printing headers footers etc.
 	var $contactData; // contact data for sending emials/reportlanguage selection
 	
-	var $dest;	// destination: email or printer
+	var $dest;	// destination: email or printer'
+
+	var $copyFOR = '';
 	
 	function FrontReport($title, $filename, $size = 'A4', $fontsize = 9, $orientation = 'P', $margins = NULL, $excelColWidthFactor = NULL)
 	{

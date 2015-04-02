@@ -56,7 +56,7 @@
 		$this->NewLine();
 		$this->TextWrap($ccol, $this->row, $this->pageWidth - $this->rightMargin - $ccol - 20, 'CASH/CREDIT BILL', 'center');
 		$this->NewLine();
-		//$this->TextWrap($ccol, $this->row, $this->pageWidth - $this->rightMargin - $ccol - 20, 'Duplicate Copy', 'center');
+		$this->TextWrap($ccol, $this->row, $this->pageWidth - $this->rightMargin - $ccol - 20, $this->copyFOR.' Copy', 'center');
 
 		$this->Text($ccol, 'TIN : 32071247122', $icol);
 		$this->NewLine();

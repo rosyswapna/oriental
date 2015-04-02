@@ -211,7 +211,10 @@ if (isset($_GET['AddedID'])) {
 
 	submenu_view(_("&View This Invoice"), ST_SALESINVOICE, $invoice);
 
-	submenu_print(_("&Print Sales Invoice"), ST_SALESINVOICE, $invoice."-".ST_SALESINVOICE, 'prtopt');
+	submenu_print(_("&Print Original Copy"), ST_SALESINVOICE, $invoice."-".ST_SALESINVOICE, 'prtopt_org');
+	submenu_print(_("&Print Duplicate Copy"), ST_SALESINVOICE, $invoice."-".ST_SALESINVOICE, 'prtopt_dup');
+	submenu_print(_("&Print Customer Copy"), ST_SALESINVOICE, $invoice."-".ST_SALESINVOICE, 'prtopt_cst');
+
 	submenu_print(_("&Email Sales Invoice"), ST_SALESINVOICE, $invoice."-".ST_SALESINVOICE, null, 1);
 	set_focus('prtopt');
 	

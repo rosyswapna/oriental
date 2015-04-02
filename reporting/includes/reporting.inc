@@ -60,8 +60,30 @@ function print_document_link($doc_no, $link_text, $link=true, $type_no,
 				'PARAM_5' => $def_orientation);
 			break;
 		case ST_SALESINVOICE : // Sales Invoice
+			if($id == 'prtopt_dup'){
+				$param8 = 'Duplicate';
+			}
+			elseif($id == 'prtopt_cst'){
+				$param8 = 'Customer';
+			}else{
+				$param8 = 'Original';
+			}
+			$rep = 711;
+			
+			// from, to, currency, email, paylink, comments, orientation
+			$ar = array(
+				'PARAM_0' => $doc_no, 
+				'PARAM_1' => $doc_no, 
+				'PARAM_2' => '', 
+				'PARAM_3' => $email, 
+				'PARAM_4' => '',
+				'PARAM_5' => '', 
+				'PARAM_6' => $def_orientation,
+				'PARAM_8' => $param8
+				);
+			break;
 		case ST_CUSTCREDIT : // Customer Credit Note
-			$rep = $type_no==ST_CUSTCREDIT ? 113 : 711;//107;
+			$rep = 113;
 			// from, to, currency, email, paylink, comments, orientation
 			$ar = array(
 				'PARAM_0' => $doc_no, 
