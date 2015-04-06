@@ -70,6 +70,7 @@ class FrontReport extends Cpdf
 	var $dest;	// destination: email or printer'
 
 	var $copyFOR = '';
+	var $memo = '';
 	
 	function FrontReport($title, $filename, $size = 'A4', $fontsize = 9, $orientation = 'P', $margins = NULL, $excelColWidthFactor = NULL)
 	{
@@ -375,12 +376,13 @@ class FrontReport extends Cpdf
 	/*
 		Transition function 
 	*/
-	function SetCommonData($myrow, $branch, $sales_order, $bankaccount, $doctype, $contacts)
+	function SetCommonData($myrow, $branch, $sales_order, $bankaccount, $doctype, $contacts,$memo)
 	{
 //		$this->formData = array_merge($myrow, $branch, $sales_order, 
 //			$bank_account, array('doctype' => $doctype));
 
 		$this->formData = array();
+		$this->formData['veh_no'] = $memo;
 		$datnames = array( 
 		'myrow' => array('ord_date', 'date_', 'tran_date', 
 			'order_no','reference', 'id', 'trans_no', 'name', 'location_name',

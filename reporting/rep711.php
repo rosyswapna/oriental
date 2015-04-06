@@ -97,10 +97,12 @@ function print_invoices()
 			$rep->Info($params, $cols, null, $aligns);
 			$rep->copyFOR = $copy_for;
 
-
+			
 			$contacts = get_branch_contacts($branch['branch_code'], 'invoice', $branch['debtor_no'], true);
 			$baccount['payment_service'] = $pay_service;
-			$rep->SetCommonData($myrow, $branch, $sales_order, $baccount, ST_SALESINVOICE, $contacts);
+			$memo = get_comments_string(ST_SALESINVOICE, $i);
+			
+			$rep->SetCommonData($myrow, $branch, $sales_order, $baccount, ST_SALESINVOICE, $contacts,$memo);
 			$rep->NewPage();
    			$result = get_customer_trans_details(ST_SALESINVOICE, $i);
 			$SubTotal = 0;
@@ -140,7 +142,7 @@ function print_invoices()
 				if ($rep->row < $rep->bottomMargin + (15 * $rep->lineHeight))
 					$rep->NewPage();
 			}
-
+			
    			$DisplaySubTot = number_format2($SubTotal,$dec);
    			$DisplayFreight = number_format2($sign*$myrow["ov_freight"],$dec);
 

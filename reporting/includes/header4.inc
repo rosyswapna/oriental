@@ -80,11 +80,11 @@
 		$this->row = $rightT;
 		$this->Text($mcol2, 'DATE : '.$this->formData['tran_date'], $icol);
 		$this->NewLine();
-		$this->Text($mcol2, 'PO NO : '.$Addr2['contact'], $icol);
+		$this->Text($mcol2, 'PO NO : ', $icol);
 		$this->NewLine();
-		$this->Text($mcol2, 'PO DATE : '.$Addr2['contact'], $icol);
+		$this->Text($mcol2, 'PO DATE : ', $icol);
 		$this->NewLine();
-		$this->Text($mcol2, 'VECH NO : '.$Addr2['contact'], $icol);
+		$this->Text($mcol2, 'VECH NO : '.$this->formData['veh_no'], $icol);
 		
 		//$iline1 = $upper - 10.5 * $this->lineHeight;
 		//$iline2 = $iline1 - 1.5 * $this->lineHeight;
