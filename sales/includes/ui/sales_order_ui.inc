@@ -470,6 +470,8 @@ function display_order_header(&$order, $editable, $date_text)
 		hidden('OrderDate', $order->document_date);
 	}
 
+	text_row(_("Vehicle").':', 'vehicle_no', '', null, '');
+
 	end_outer_table(1); // outer table
 
 	if ($change_prices != 0) {

@@ -92,7 +92,7 @@
 		$this->NewLine();
 		$this->Text($mcol2, 'PO DATE : ', $icol);
 		$this->NewLine();
-		$this->Text($mcol2, 'VECH NO : '.$this->formData['veh_no'], $icol);
+		$this->Text($mcol2, 'VECH NO : '.$this->formData['vehicle_no'], $icol);
 		
 		//$iline1 = $upper - 10.5 * $this->lineHeight;
 		//$iline2 = $iline1 - 1.5 * $this->lineHeight;

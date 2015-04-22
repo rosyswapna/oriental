@@ -73,6 +73,8 @@ class cart
 	var $credit;
 	var $ex_rate;
 
+	var $vehicle_no;
+
 	//-------------------------------------------------------------------------
 	//
 	//  $trans_no==0 => open new/direct document
@@ -272,6 +274,7 @@ class cart
 		}	
 		if (count($this->src_docs) == 0 && ($this->trans_type == ST_SALESINVOICE || $this->trans_type == ST_CUSTDELIVERY)) {
 			// this is direct document - first add parent
+			$vehicle_no = $this->vehicle_no;
 			$ref = $this->reference;
 			$date = $this->document_date;
 			$due_date = $this->due_date;
@@ -289,6 +292,9 @@ class cart
 			$this->due_date = $due_date;
 			$this->dimension_id = $dimension_id;
 			$this->dimension2_id = $dimension2_id;
+			$this->vehicle_no = $vehicle_no;
+
+			
 		}
 		$this->reference = @html_entity_decode($this->reference, ENT_QUOTES);
 		$this->Comments = @html_entity_decode($this->Comments, ENT_QUOTES);

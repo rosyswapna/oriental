@@ -77,6 +77,9 @@ function print_invoices()
 			$sign = 1;
 			$myrow = get_customer_trans($i, ST_SALESINVOICE);
 
+			$vehicle = get_trans_vehicle($i, ST_SALESINVOICE);
+			$myrow['vehicle_no'] = @$vehicle['vehicle_no'];
+
 			if($customer && $myrow['debtor_no'] != $customer) {
 				continue;
 			}

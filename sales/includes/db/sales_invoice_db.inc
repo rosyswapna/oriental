@@ -75,6 +75,15 @@ function write_sales_invoice(&$invoice)
 	$invoice->dimension2_id, $invoice->payment); 
 	// 2008-06-14 extra $alloc, 2008-11-12 added dimension_id Joe Hunt
 
+	//add invoice vehicle
+	if($invoice->vehicle_no){
+		if (!exists_trans_vehicle($invoice_no,ST_SALESINVOICE))
+			add_trans_vehicle($invoice_no,ST_SALESINVOICE,$invoice->vehicle_no);
+		else
+			update_trans_vehicle($invoice_no,ST_SALESINVOICE,$invoice->vehicle_no);
+	
+	}
+
 	if ($trans_no == 0) {
 		$invoice->trans_no = array($invoice_no=>0);
 	}
@@ -230,6 +239,46 @@ function void_sales_invoice($type, $type_no)
 	void_customer_trans($type, $type_no);
 
 	commit_transaction();
+}
+
+
+
+//-------------------------------------------------------------------------------------------------
+
+//===================trans vehicle======================================================
+function add_trans_vehicle($trans_no,$type,$vehicle_no)
+{
+	$sql = "INSERT INTO ".TB_PREF."trans_vehicles (trans_no, type,vehicle_no) 
+		VALUES (".db_escape($trans_no).", ".db_escape($type).", ".db_escape($vehicle_no).")";
+	db_query($sql, "The vehicle record could not be inserted");
+	return true;
+}
+
+function update_trans_vehicle($trans_no,$type,$vehicle_no)
+{
+	$sql = "UPDATE ".TB_PREF."trans_vehicles SET vehicle_no = ".db_escape($vehicle_no)."
+		WHERE trans_no = ".db_escape($trans_no)." AND type= ".db_escape($type);
+	db_query($sql, "The vehicle record could not be updated");
+	return true;
+}
+
+function get_trans_vehicle($trans_no,$type)
+{
+	$sql = "SELECT vehicle_no FROM ".TB_PREF."trans_vehicles WHERE trans_no=".db_escape($trans_no)." AND type=".db_escape($type);
+	$result = db_query($sql, "could not get vehicle");
+
+	return db_fetch($result);
+}
+
+function exists_trans_vehicle($trans_no,$type)
+{
+	$sql = "SELECT vehicle_no FROM ".TB_PREF."trans_vehicles WHERE type=".db_escape($type)."
+		AND trans_no=".db_escape($trans_no);
+	
+
+	$result = db_query($sql, "Cannot retreive vehicle");
+
+	return (db_num_rows($result) > 0);
 }
 
 ?>

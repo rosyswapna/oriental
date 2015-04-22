@@ -246,12 +246,15 @@ function copy_to_cart()
 	$cart->dimension_id =  $_POST['dimension_id'];
 	$cart->dimension2_id =  $_POST['dimension2_id'];
 
+	$cart->vehicle_no = $_POST['vehicle_no'];
+
 }
 //-----------------------------------------------------------------------------
 
 function copy_from_cart()
 {
 	$cart = &$_SESSION['Items'];
+	//echo "<pre>";print_r($cart);echo "</pre>";exit;
 	$_POST['ship_via'] = $cart->ship_via;
 	$_POST['ChargeFreightCost'] = price_format($cart->freight_cost);
 	$_POST['InvoiceDate']= $cart->document_date;
@@ -262,6 +265,8 @@ function copy_from_cart()
 	$_POST['payment'] = $cart->payment;
 	$_POST['dimension_id'] = $cart->dimension_id;
 	$_POST['dimension2_id'] = $cart->dimension2_id;
+
+	$_POST['vehicle_no'] = $cart->vehicle_no;
 }
 
 //-----------------------------------------------------------------------------
@@ -325,6 +330,7 @@ if (isset($_POST['process_invoice']) && check_data()) {
 	copy_to_cart();
 	if ($newinvoice) 
 		new_doc_date($_SESSION['Items']->document_date);
+	//echo "<pre>";print_r($_SESSION['Items']);echo "</pre>";exit;
 
 	$invoice_no = $_SESSION['Items']->write();
 	if ($invoice_no == -1)
@@ -450,6 +456,7 @@ if (!isset($_POST['due_date']) || !is_date($_POST['due_date'])) {
 }
 
 date_cells(_("Due Date"), 'due_date', '', null, 0, 0, 0, "class='tableheader2'");
+text_cells(_("Vehicle"), 'vehicle_no',null,'','',false,"class='tableheader2'");
 /*
 if ($dim > 1) 
 	label_cells(_("Dimension"). " 2", get_dimension_string($_SESSION['Items']->dimension2_id), "class='tableheader2'");
@@ -595,7 +602,7 @@ end_table(1);
 submit_center_first('Update', _("Update"),
   _('Refresh document page'), true);
 submit_center_last('process_invoice', _("Process Invoice"),
-  _('Check entered data and save document'), 'default');
+  _('Check entered data and save document'));
 
 end_form();
 

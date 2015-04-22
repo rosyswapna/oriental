@@ -291,6 +291,8 @@ function copy_to_cart()
 		$cart->dimension2_id = $_POST['dimension2_id'];
 	}
 	$cart->ex_rate = input_num('_ex_rate', null);
+
+	$cart->vehicle_no = $_POST['vehicle_no'];
 }
 
 //-----------------------------------------------------------------------------
@@ -324,6 +326,8 @@ function copy_from_cart()
 	}
 	$_POST['cart_id'] = $cart->cart_id;
 	$_POST['_ex_rate'] = $cart->ex_rate;
+
+	$_POST['vehicle_no'] = $cart->vehicle_no;
 }
 //--------------------------------------------------------------------------------
 
@@ -441,6 +445,7 @@ if (isset($_POST['ProcessOrder']) && can_process()) {
 	copy_to_cart();
 	$modified = ($_SESSION['Items']->trans_no != 0);
 	$so_type = $_SESSION['Items']->so_type;
+	//echo "<pre>";print_r($_SESSION['Items']);echo "</pre>";exit;
 
 	$ret = $_SESSION['Items']->write(1);
 	if ($ret == -1)
@@ -736,7 +741,9 @@ if ($customer_error == "") {
 	if ($_SESSION['Items']->trans_no == 0) {
 
 		submit_center_first('ProcessOrder', $porder,
-		    _('Check entered data and save document'), 'default');
+		    _('Check entered data and save document'));
+		
+
 		submit_center_last('CancelOrder', $cancelorder,
 	   		_('Cancels document entry or removes sales order when editing an old document'), true);
 		submit_js_confirm('CancelOrder', _('You are about to void this Document.\nDo you want to continue?'));
