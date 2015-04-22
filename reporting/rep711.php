@@ -83,6 +83,8 @@ function print_invoices()
 			$baccount = get_default_bank_account($myrow['curr_code']);
 			$params['bankaccount'] = $baccount['id'];
 
+			$customer = get_customer($myrow['debtor_no']);
+
 			$branch = get_branch($myrow["branch_code"]);
 			$sales_order = get_sales_order_header($myrow["order_"], ST_SALESORDER);
 			if ($email == 1)
@@ -101,8 +103,9 @@ function print_invoices()
 			$contacts = get_branch_contacts($branch['branch_code'], 'invoice', $branch['debtor_no'], true);
 			$baccount['payment_service'] = $pay_service;
 			$memo = get_comments_string(ST_SALESINVOICE, $i);
+			//echo "<pre>";print_r($contacts);echo "</pre>";exit;
 			
-			$rep->SetCommonData($myrow, $branch, $sales_order, $baccount, ST_SALESINVOICE, $contacts,$memo);
+			$rep->SetCommonData($myrow, $branch, $sales_order, $baccount, ST_SALESINVOICE, $contacts,$memo,$customer);
 			$rep->NewPage();
    			$result = get_customer_trans_details(ST_SALESINVOICE, $i);
 			$SubTotal = 0;

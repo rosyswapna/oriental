@@ -109,7 +109,7 @@ if (isset($_POST['update']) && $_POST['update'] != "")
 				'no_item_list' => 0, 'no_customer_list' => 0, 
 				'no_supplier_list' =>0, 'base_sales', 
 				'time_zone' => 0, 'add_pct', 'round_to', 'login_tout', 'auto_curr_reval',
-				'bcc_email'))
+				'bcc_email','tin_no'))
 		);
 
 		$_SESSION['wa_current_user']->timeout = $_POST['login_tout'];
@@ -156,6 +156,7 @@ $_POST['round_to'] = $myrow['round_to'];
 $_POST['auto_curr_reval'] = $myrow['auto_curr_reval'];	
 $_POST['del_coy_logo']  = 0;
 $_POST['bcc_email']  = $myrow["bcc_email"];
+$_POST['tin_no'] = $myrow["tin_no"];
 
 start_outer_table(TABLESTYLE2);
 
@@ -201,6 +202,8 @@ check_row(_("Automatic Revaluation Currency Accounts"), 'auto_curr_reval', $_POS
 check_row(_("Time Zone on Reports"), 'time_zone', $_POST['time_zone']);
 text_row_ex(_("Login Timeout:"), 'login_tout', 10, 10, '', null, null, _('seconds'));
 label_row(_("Version Id"), $_POST['version_id']);
+
+text_row_ex(_("TIN No:"), 'tin_no', 25);
 
 end_outer_table(1);
 

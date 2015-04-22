@@ -89,7 +89,7 @@ function handle_submit(&$selected_id)
 		update_customer($_POST['customer_id'], $_POST['CustName'], $_POST['cust_ref'], $_POST['address'],
 			$_POST['tax_id'], $_POST['curr_code'], $_POST['dimension_id'], $_POST['dimension2_id'],
 			$_POST['credit_status'], $_POST['payment_terms'], input_num('discount') / 100, input_num('pymt_discount') / 100,
-			input_num('credit_limit'), $_POST['sales_type'], $_POST['notes']);
+			input_num('credit_limit'), $_POST['sales_type'], $_POST['notes'],$_POST['tin_no']);
 
 		update_record_status($_POST['customer_id'], $_POST['inactive'],
 			'debtors_master', 'debtor_no');
@@ -104,7 +104,7 @@ function handle_submit(&$selected_id)
 		add_customer($_POST['CustName'], $_POST['cust_ref'], $_POST['address'],
 			$_POST['tax_id'], $_POST['curr_code'], $_POST['dimension_id'], $_POST['dimension2_id'],
 			$_POST['credit_status'], $_POST['payment_terms'], input_num('discount') / 100, input_num('pymt_discount') / 100,
-			input_num('credit_limit'), $_POST['sales_type'], $_POST['notes']);
+			input_num('credit_limit'), $_POST['sales_type'], $_POST['notes'],$_POST['tin_no']);
 
 		$selected_id = $_POST['customer_id'] = db_insert_id();
          
@@ -192,7 +192,7 @@ function customer_settings($selected_id)
 	if (!$selected_id) 
 	{
 	 	if (list_updated('customer_id') || !isset($_POST['CustName'])) {
-			$_POST['CustName'] = $_POST['cust_ref'] = $_POST['address'] = $_POST['tax_id']  = '';
+			$_POST['CustName'] = $_POST['cust_ref'] = $_POST['address'] = $_POST['tax_id']  = $_POST['tin_no']  ='';
 			$_POST['dimension_id'] = 0;
 			$_POST['dimension2_id'] = 0;
 			$_POST['sales_type'] = -1;
@@ -212,6 +212,7 @@ function customer_settings($selected_id)
 		$_POST['cust_ref'] = $myrow["debtor_ref"];
 		$_POST['address']  = $myrow["address"];
 		$_POST['tax_id']  = $myrow["tax_id"];
+		$_POST['tin_no']  = $myrow["tin_no"];
 		$_POST['dimension_id']  = $myrow["dimension_id"];
 		$_POST['dimension2_id']  = $myrow["dimension2_id"];
 		$_POST['sales_type'] = $myrow["sales_type"];
@@ -234,6 +235,7 @@ function customer_settings($selected_id)
 	textarea_row(_("Address:"), 'address', $_POST['address'], 35, 5);
 
 	text_row(_("GSTNo:"), 'tax_id', null, 40, 40);
+	text_row(_("TIN No:"), 'tin_no', null, 40, 40);
 
 
 	if (!$selected_id || is_new_customer($selected_id) || (!key_in_foreign_table($selected_id, 'debtor_trans', 'debtor_no') &&

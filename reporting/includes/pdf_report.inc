@@ -376,7 +376,7 @@ class FrontReport extends Cpdf
 	/*
 		Transition function 
 	*/
-	function SetCommonData($myrow, $branch, $sales_order, $bankaccount, $doctype, $contacts,$memo)
+	function SetCommonData($myrow, $branch, $sales_order, $bankaccount, $doctype, $contacts,$memo,$customer)
 	{
 //		$this->formData = array_merge($myrow, $branch, $sales_order, 
 //			$bank_account, array('doctype' => $doctype));
@@ -393,7 +393,8 @@ class FrontReport extends Cpdf
 			'ov_freight', 'ov_gst', 'ov_amount', 'requisition_no', 'contact'),
 		'branch' => array('br_address', 'br_name', 'salesman', 'disable_branch'),
 		'sales_order' => array('deliver_to', 'delivery_address', 'customer_ref'),
-		'bankaccount' => array('bank_name', 'bank_account_number', 'payment_service')
+		'bankaccount' => array('bank_name', 'bank_account_number', 'payment_service'),
+		'customer' => array('tin_no')
 		);
 
 		foreach($datnames as $var => $fields) {

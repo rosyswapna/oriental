@@ -58,21 +58,29 @@
 		$this->NewLine();
 		$this->TextWrap($ccol, $this->row, $this->pageWidth - $this->rightMargin - $ccol - 20, $this->copyFOR.' Copy', 'center');
 
-		$this->Text($ccol, 'TIN : 32071247122', $icol);
+		
+		$this->Text($ccol, 'TIN : '.$this->company['tin_no'], $icol);
 		$this->NewLine();
+
+		$colon	= $ccol+50;
+		//$data	= $colon+15;
 		$this->Text($ccol, 'Bill No', $icol);
-		$this->Text($c2col, ': '.$this->formData['document_number'], $icol);
+		$this->Text($colon, ':');
+		$this->Text($c2col,$this->formData['document_number'], $icol);
 		
 		$this->NewLine();
 		$this->Text($ccol, 'To', $icol);
+		$this->Text($colon, ':');
 		$rightT = $this->row;
 		
-		$this->Text($c2col, ': '.$Addr2['name'], $icol);
+		$this->Text($c2col, $Addr2['name'], $icol);
 		$this->NewLine();
 		$this->TextWrapLines($c2col, $icol - $ccol, $Addr2['address']);
 
-		$this->Text($ccol, 'PH : '.$Addr2['contact'], $icol);
-		$this->Text($ccol2+60, 'TIN No : ');
+		$this->Text($ccol, 'PH', $icol);
+		$this->Text($colon, ':');
+		$this->Text($c2col, @$this->contactData[0]['phone'], $icol);
+		$this->Text($ccol2+60, 'TIN No : '.@$this->formData['tin_no']);
 
 		$leftB = $this->row;
 
