@@ -12,7 +12,7 @@
 
 function add_customer($CustName, $cust_ref, $address, $tax_id, $curr_code,
 	$dimension_id, $dimension2_id, $credit_status, $payment_terms, $discount, $pymt_discount, 
-	$credit_limit, $sales_type, $notes,$tin_no)
+	$credit_limit, $sales_type, $notes,$tin_no,$cst_no)
 {
 	$sql = "INSERT INTO ".TB_PREF."debtors_master (name, debtor_ref, address, tax_id,
 		dimension_id, dimension2_id, curr_code, credit_status, payment_terms, discount, 
@@ -23,14 +23,15 @@ function add_customer($CustName, $cust_ref, $address, $tax_id, $curr_code,
 		.db_escape($dimension2_id) . ", ".db_escape($curr_code) . ", 
 		" . db_escape($credit_status) . ", ".db_escape($payment_terms) . ", " . $discount . ", 
 		" . $pymt_discount . ", " . $credit_limit 
-		 .", ".db_escape($sales_type).", ".db_escape($notes) . ", ".db_escape($tin_no) .")";
+		 .", ".db_escape($sales_type).", ".db_escape($notes) . ", 
+		 ".db_escape($tin_no) .", ".db_escape($cst_no) .")";
 
 	db_query($sql,"The customer could not be added");
 }
 
 function update_customer($customer_id, $CustName, $cust_ref, $address, $tax_id, $curr_code,
 	$dimension_id, $dimension2_id, $credit_status, $payment_terms, $discount, $pymt_discount,
-	$credit_limit, $sales_type, $notes,$tin_no)
+	$credit_limit, $sales_type, $notes,$tin_no,$cst_no)
 {
 	$sql = "UPDATE ".TB_PREF."debtors_master SET name=" . db_escape($CustName) . ", 
 		debtor_ref=" . db_escape($cust_ref) . ",
@@ -46,7 +47,8 @@ function update_customer($customer_id, $CustName, $cust_ref, $address, $tax_id, 
 		credit_limit=" . $credit_limit . ", 
 		sales_type = ".db_escape($sales_type) . ", 
 		notes = ".db_escape($notes) . ", 
-		tin_no=".db_escape($tin_no) ."
+		tin_no = ".db_escape($tin_no) . ", 
+		cst_no=".db_escape($cst_no) ."
 		WHERE debtor_no = ".db_escape($customer_id);
 
 	db_query($sql,"The customer could not be updated");
