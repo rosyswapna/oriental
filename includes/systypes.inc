@@ -50,6 +50,7 @@ function get_systype_db_info($type)
         case     3               : return null;
         case     ST_BANKTRANSFER : return array("".TB_PREF."bank_trans", "type", "trans_no", "ref", "trans_date");
         case     ST_SALESINVOICE : return array("".TB_PREF."debtor_trans", "type", "trans_no", "reference", "tran_date");
+	case     ST_FORM8	 : return array("".TB_PREF."debtor_trans", "type", "trans_no", "reference", "tran_date");
         case     ST_CUSTCREDIT   : return array("".TB_PREF."debtor_trans", "type", "trans_no", "reference", "tran_date");
         case     ST_CUSTPAYMENT  : return array("".TB_PREF."debtor_trans", "type", "trans_no", "reference", "tran_date");
         case     ST_CUSTDELIVERY : return array("".TB_PREF."debtor_trans", "type", "trans_no", "reference", "tran_date");

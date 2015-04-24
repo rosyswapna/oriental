@@ -75,6 +75,8 @@ function get_customer_trans_view_str($type, $trans_no, $label="", $icon=false,
 
 	if ($type == ST_SALESINVOICE)
 		$viewer .= "view_invoice.php";
+	elseif ($type == ST_FORM8)
+		$viewer .= "view_form8.php";
 	elseif ($type == ST_CUSTCREDIT)
 		$viewer .= "view_credit.php";
 	elseif ($type == ST_CUSTPAYMENT)

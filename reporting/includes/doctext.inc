@@ -102,7 +102,8 @@
 			);
 			break;
 
-		case ST_SALESINVOICE:
+		case ST_SALESINVOICE://FORM 8B
+		case ST_FORM8:
 			$this->title = _("INVOICE");
 			$this->formData['document_name'] =_("Invoice No.");
 			$this->formData['domicile'] = $this->company['domicile'];
@@ -110,7 +111,7 @@
 			$Footer['DECLARATION'] = _("Certified that all the particulars shown in the above tax invoice are true and correct in all respects and goods on which tax charged and collected are in accordance with the provisions of the KVAT ACT 2003 and the rules made there under. It is also certified that my our registration under KVAT act 2003 is not subject to any suspension/Cancellation and it is valid as on the date of the bill.");
 			
 
-			$deliveries = get_sales_parent_numbers(ST_SALESINVOICE, $this->formData['trans_no']);
+			$deliveries = get_sales_parent_numbers($this->formData['doctype'], $this->formData['trans_no']);
 			if ($print_invoice_no == 0)
 			{
 				foreach($deliveries as $n => $delivery) {
@@ -271,7 +272,7 @@
 	if ($this->params['comments'] != '')
 		$Footer[] = $this->params['comments'];
 
-	if (($this->formData['doctype'] == ST_SALESINVOICE || $this->formData['doctype'] == ST_STATEMENT) && $this->company['legal_text'] != "") 
+	if (($this->formData['doctype'] == ST_SALESINVOICE || $this->formData['doctype'] == ST_FORM8 || $this->formData['doctype'] == ST_STATEMENT) && $this->company['legal_text'] != "") 
 	{
 		foreach(explode("\n", $this->company['legal_text']) as $line)
 			$Footer[] = $line;

@@ -32,7 +32,8 @@ set_page_security( @$_SESSION['Items']->trans_type,
 	array(	ST_SALESORDER=>'SA_SALESORDER',
 			ST_SALESQUOTE => 'SA_SALESQUOTE',
 			ST_CUSTDELIVERY => 'SA_SALESDELIVERY',
-			ST_SALESINVOICE => 'SA_SALESINVOICE'),
+			ST_SALESINVOICE => 'SA_SALESINVOICE',
+			ST_FORM8	=> 'SA_FORM8'),
 	array(	'NewOrder' => 'SA_SALESORDER',
 			'ModifyOrderNumber' => 'SA_SALESORDER',
 			'AddedID' => 'SA_SALESORDER',
@@ -45,7 +46,9 @@ set_page_security( @$_SESSION['Items']->trans_type,
 			'NewDelivery' => 'SA_SALESDELIVERY',
 			'AddedDN' => 'SA_SALESDELIVERY', 
 			'NewInvoice' => 'SA_SALESINVOICE',
-			'AddedDI' => 'SA_SALESINVOICE'
+			'Form8' => 'SA_FORM8',
+			'AddedDI' => 'SA_SALESINVOICE',
+			'AddedF8' => 'SA_FORM8'
 			)
 );
 
@@ -66,8 +69,13 @@ if (isset($_GET['NewDelivery']) && is_numeric($_GET['NewDelivery'])) {
 
 } elseif (isset($_GET['NewInvoice']) && is_numeric($_GET['NewInvoice'])) {
 
-	$_SESSION['page_title'] = _($help_context = "Direct Sales Invoice");
+	$_SESSION['page_title'] = _($help_context = "Form 8B");
 	create_cart(ST_SALESINVOICE, $_GET['NewInvoice']);
+
+} elseif (isset($_GET['NewForm8']) && is_numeric($_GET['NewForm8'])) {
+
+	$_SESSION['page_title'] = _($help_context = "Form 8");
+	create_cart(ST_FORM8, $_GET['NewForm8']);
 
 } elseif (isset($_GET['ModifyOrderNumber']) && is_numeric($_GET['ModifyOrderNumber'])) {
 
@@ -240,6 +248,43 @@ if (isset($_GET['AddedID'])) {
 	submenu_option(_("Add an Attachment"), "/admin/attachments.php?filterType=".ST_SALESINVOICE."&trans_no=$invoice");
 
 	display_footer_exit();
+} elseif (isset($_GET['AddedF8'])) {
+	$invoice = $_GET['AddedF8'];
+
+	display_notification_centered(sprintf(_("Invoice # %d has been entered."), $invoice));
+
+	submenu_view(_("&View This Invoice"), ST_FORM8, $invoice);
+
+	submenu_print(_("&Print Original Copy"), ST_FORM8, $invoice."-".ST_FORM8, 'prtopt_org');
+	submenu_print(_("&Print Duplicate Copy"), ST_FORM8, $invoice."-".ST_FORM8, 'prtopt_dup');
+	submenu_print(_("&Print Customer Copy"), ST_FORM8, $invoice."-".ST_FORM8, 'prtopt_cst');
+
+	submenu_print(_("&Email Sales Invoice"), ST_FORM8, $invoice."-".ST_FORM8, null, 1);
+	set_focus('prtopt');
+	
+	$sql = "SELECT trans_type_from, trans_no_from FROM ".TB_PREF."cust_allocations
+			WHERE trans_type_to=".ST_FORM8." AND trans_no_to=".db_escape($invoice);
+	$result = db_query($sql, "could not retrieve customer allocation");
+	$row = db_fetch($result);
+	if ($row !== false)
+		submenu_print(_("Print &Receipt"), $row['trans_type_from'], $row['trans_no_from']."-".$row['trans_type_from'], 'prtopt');
+
+	display_note(get_gl_view_str(ST_FORM8, $invoice, _("View the GL &Journal Entries for this Invoice")),0, 1);
+
+	if ((isset($_GET['Type']) && $_GET['Type'] == 1))
+		submenu_option(_("Enter a &New Template Invoice"), 
+			"/sales/inquiry/sales_orders_view.php?InvoiceTemplates=Yes");
+	else
+		submenu_option(_("Enter a &New Form8"),
+			"/sales/sales_order_entry.php?NewForm8=0");
+
+	if ($row === false)
+		submenu_option(_("Entry &customer payment for this invoice"), "/sales/customer_payments.php?SInvoice=".$invoice);
+
+	submenu_option(_("Add an Attachment"), "/admin/attachments.php?filterType=".ST_FORM8."&trans_no=$invoice");
+
+	display_footer_exit();
+
 } else
 	check_edit_conflicts();
 //-----------------------------------------------------------------------------
@@ -481,6 +526,8 @@ if (isset($_POST['ProcessOrder']) && can_process()) {
 			meta_forward($_SERVER['PHP_SELF'], "AddedQU=$trans_no");
 		} elseif ($trans_type == ST_SALESINVOICE) {
 			meta_forward($_SERVER['PHP_SELF'], "AddedDI=$trans_no&Type=$so_type");
+		} elseif ($trans_type == ST_FORM8) {
+			meta_forward($_SERVER['PHP_SELF'], "AddedF8=$trans_no&Type=$so_type");
 		} else {
 			meta_forward($_SERVER['PHP_SELF'], "AddedDN=$trans_no&Type=$so_type");
 		}
@@ -655,7 +702,7 @@ function create_cart($type, $trans_no)
 		$doc->trans_type = $type;
 		$doc->trans_no = 0;
 		$doc->document_date = new_doc_date();
-		if ($type == ST_SALESINVOICE) {
+		if ($type == ST_SALESINVOICE || $type == ST_FORM8) {
 			$doc->due_date = get_invoice_duedate($doc->payment, $doc->document_date);
 			$doc->pos = get_sales_point(user_pos());
 		} else
@@ -695,7 +742,7 @@ check_db_has_stock_items(_("There are no inventory items defined in the system."
 
 check_db_has_customer_branches(_("There are no customers, or there are no customers with branches. Please define customers and customer branches."));
 
-if ($_SESSION['Items']->trans_type == ST_SALESINVOICE) {
+if ($_SESSION['Items']->trans_type == ST_SALESINVOICE || $_SESSION['Items']->trans_type == ST_FORM8) {
 	$idate = _("Invoice Date:");
 	$orderitems = _("Sales Invoice Items");
 	$deliverydetails = _("Enter Delivery Details and Confirm Invoice");
@@ -723,7 +770,7 @@ if ($_SESSION['Items']->trans_type == ST_SALESINVOICE) {
 	$corder = _("Commit Order Changes");
 }
 start_form();
-
+//echo "<pre>";print_r($_SESSION['Items']);echo "</pre>";exit;
 hidden('cart_id');
 $customer_error = display_order_header($_SESSION['Items'],
 	($_SESSION['Items']->any_already_delivered() == 0), $idate);
@@ -741,7 +788,8 @@ if ($customer_error == "") {
 	if ($_SESSION['Items']->trans_no == 0) {
 
 		submit_center_first('ProcessOrder', $porder,
-		    _('Check entered data and save document'));
+		    _('Check entered data and save document'), 'default');
+		//submit_center_first('ProcessOrder', $porder, _('Check entered data and save document'), 'default');
 		
 
 		submit_center_last('CancelOrder', $cancelorder,

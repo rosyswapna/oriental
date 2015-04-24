@@ -22,8 +22,12 @@ class customers_app extends application
 			"sales/sales_order_entry.php?NewOrder=Yes", 'SA_SALESORDER', MENU_TRANSACTION);
 		$this->add_lapp_function(0, _("Direct &Delivery"),
 			"sales/sales_order_entry.php?NewDelivery=0", 'SA_SALESDELIVERY', MENU_TRANSACTION);
-		$this->add_lapp_function(0, _("Direct &Invoice"),
+
+		$this->add_lapp_function(0, _("Form8B"),//Direct &Invoice
 			"sales/sales_order_entry.php?NewInvoice=0", 'SA_SALESINVOICE', MENU_TRANSACTION);
+		$this->add_lapp_function(0, _("Form8"),
+			"sales/sales_order_entry.php?NewForm8=0", 'SA_FORM8', MENU_TRANSACTION);
+
 		$this->add_lapp_function(0, "","");
 		$this->add_lapp_function(0, _("&Delivery Against Sales Orders"),
 			"sales/inquiry/sales_orders_view.php?OutstandingOnly=1", 'SA_SALESDELIVERY', MENU_TRANSACTION);

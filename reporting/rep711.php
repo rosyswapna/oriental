@@ -53,8 +53,9 @@ function print_invoices()
 
  	$fno = explode("-", $from);
 	$tno = explode("-", $to);
-	$from = min($fno[0], $tno[0]);
+	$from = 
 	$to = max($fno[0], $tno[0]);
+	$trans_type = min($fno[1], $tno[1]);
 
 	$cols = array(4, 30, 270, 330, 370, 420, 480, 515);
 	
@@ -72,12 +73,12 @@ function print_invoices()
 		recalculate_cols($cols);
 	for ($i = $from; $i <= $to; $i++)
 	{
-			if (!exists_customer_trans(ST_SALESINVOICE, $i))
+			if (!exists_customer_trans($trans_type, $i))
 				continue;
 			$sign = 1;
-			$myrow = get_customer_trans($i, ST_SALESINVOICE);
+			$myrow = get_customer_trans($i, $trans_type);
 
-			$vehicle = get_trans_vehicle($i, ST_SALESINVOICE);
+			$vehicle = get_trans_vehicle($i, $trans_type);
 			$myrow['vehicle_no'] = @$vehicle['vehicle_no'];
 
 			if($customer && $myrow['debtor_no'] != $customer) {
@@ -105,12 +106,12 @@ function print_invoices()
 			
 			$contacts = get_branch_contacts($branch['branch_code'], 'invoice', $branch['debtor_no'], true);
 			$baccount['payment_service'] = $pay_service;
-			$memo = get_comments_string(ST_SALESINVOICE, $i);
+			$memo = get_comments_string($trans_type, $i);
 			//echo "<pre>";print_r($contacts);echo "</pre>";exit;
 			
-			$rep->SetCommonData($myrow, $branch, $sales_order, $baccount, ST_SALESINVOICE, $contacts,$memo,$customer);
+			$rep->SetCommonData($myrow, $branch, $sales_order, $baccount, $trans_type, $contacts,$memo,$customer);
 			$rep->NewPage();
-   			$result = get_customer_trans_details(ST_SALESINVOICE, $i);
+   			$result = get_customer_trans_details($trans_type, $i);
 			$SubTotal = 0;
 			$NO = 0;
 			while ($myrow2=db_fetch($result))
@@ -153,12 +154,12 @@ function print_invoices()
    			$DisplayFreight = number_format2($sign*$myrow["ov_freight"],$dec);
 
     			$rep->row = $rep->bottomMargin + (15 * $rep->lineHeight);
-			$doctype = ST_SALESINVOICE;
+			$doctype = $trans_type;
 
 			$rep->TextCol(3, 6, _("Grand-total"), -2);
 			$rep->TextCol(6, 7,	$DisplaySubTot, -2);
 
-			$words = price_in_words_custom($myrow['Total'], ST_SALESINVOICE);
+			$words = price_in_words_custom($myrow['Total'], $trans_type);
 			if ($words != "")
 			{
 				$rep->TextCol(0,3, $words." Only");
@@ -167,7 +168,7 @@ function print_invoices()
 	
 			$rep->NewLine();
 			
-			$tax_items = get_trans_tax_details(ST_SALESINVOICE, $i);
+			$tax_items = get_trans_tax_details($trans_type, $i);
 			$first = true;
     			while ($tax_item = db_fetch($tax_items))
     			{

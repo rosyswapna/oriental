@@ -60,6 +60,7 @@ function print_document_link($doc_no, $link_text, $link=true, $type_no,
 				'PARAM_5' => $def_orientation);
 			break;
 		case ST_SALESINVOICE : // Sales Invoice
+		case ST_FORM8 : // form8
 			if($id == 'prtopt_dup'){
 				$param8 = 'Duplicate';
 			}

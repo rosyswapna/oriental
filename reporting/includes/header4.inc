@@ -50,9 +50,12 @@
 			
 		}
 		
-		
+		if($this->formData['doctype'] == ST_FORM8)
+			$from_no = '8';
+		else
+			$from_no = '8B';
 		$this->NewLine();
-		$this->TextWrap($ccol, $this->row, $this->pageWidth - $this->rightMargin - $ccol - 20, 'THE KERALA VALUE ADDED TAX RULES 2005 FORM NO 8B', 'center');
+		$this->TextWrap($ccol, $this->row, $this->pageWidth - $this->rightMargin - $ccol - 20, 'THE KERALA VALUE ADDED TAX RULES 2005 FORM NO '.$from_no, 'center');
 		$this->NewLine();
 		$this->TextWrap($ccol, $this->row, $this->pageWidth - $this->rightMargin - $ccol - 20, 'CASH/CREDIT BILL', 'center');
 		$this->NewLine();

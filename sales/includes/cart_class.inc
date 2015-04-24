@@ -75,6 +75,9 @@ class cart
 
 	var $vehicle_no;
 
+
+	var $form_from; //form8 or form8b-normal sales invoice
+
 	//-------------------------------------------------------------------------
 	//
 	//  $trans_no==0 => open new/direct document
@@ -82,6 +85,8 @@ class cart
 	//  $trans_no!=0 && $prep_child==true => prepare for child doc entry
 	//
 	function Cart($type, $trans_no=0, $prep_child=false) {
+		$this->form_from = $type;
+
 		/*Constructor function initialises a new shopping cart */
 		$this->line_items = array();
 		$this->sales_type = "";
@@ -124,7 +129,12 @@ class cart
 	{
 		global $Refs;
 
-		$type = get_child_type($this->trans_type);
+		if($this->trans_type == ST_CUSTDELIVERY && $this->form_from==ST_FORM8){
+			$type = ST_FORM8;
+		}else{
+			$type = get_child_type($this->trans_type);
+		}
+		
 
 		$this->trans_type = $type;
 		$this->reference = $Refs->get_next($this->trans_type);
@@ -271,8 +281,8 @@ class cart
 		{
 			commit_transaction();
 			return -1;
-		}	
-		if (count($this->src_docs) == 0 && ($this->trans_type == ST_SALESINVOICE || $this->trans_type == ST_CUSTDELIVERY)) {
+		}
+		if (count($this->src_docs) == 0 && ($this->trans_type == ST_SALESINVOICE || $this->trans_type == ST_CUSTDELIVERY || $this->trans_type == ST_FORM8)) {
 			// this is direct document - first add parent
 			$vehicle_no = $this->vehicle_no;
 			$ref = $this->reference;
@@ -283,6 +293,7 @@ class cart
 			$this->trans_type = get_parent_type($this->trans_type);
 
 			$this->reference = 'auto'; 
+			
 			$trans_no = $this->write(1); 
 
 			// re-read parent document converting it to child
@@ -303,6 +314,9 @@ class cart
 			$this->line_items[$lineno]->item_description = @html_entity_decode($line->item_description, ENT_QUOTES);
 		}
 		switch($this->trans_type) {
+			case ST_FORM8:
+				$ret = write_form8($this); break;
+
 			case ST_SALESINVOICE:
 				$ret = write_sales_invoice($this); break;
 			case ST_CUSTCREDIT:

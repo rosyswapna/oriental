@@ -18,7 +18,10 @@ define('ST_BANKPAYMENT', 1);
 define('ST_BANKDEPOSIT', 2);
 define('ST_BANKTRANSFER', 4);
 
-define('ST_SALESINVOICE', 10);
+
+define('ST_FORM8', 9);
+
+define('ST_SALESINVOICE', 10);//FORM8B
 define('ST_CUSTCREDIT', 11);
 define('ST_CUSTPAYMENT', 12);
 define('ST_CUSTDELIVERY', 13);
@@ -62,13 +65,26 @@ $document_child_types = array(
 function get_child_type($type)
 {
 	global $document_child_types;
-	return isset($document_child_types[$type]) ? $document_child_types[$type] : 0;
+
+	if($type == ST_FORM8){
+		return isset($document_child_types[ST_SALESINVOICE]) ? $document_child_types[ST_SALESINVOICE] : 0;
+	}else{
+		return isset($document_child_types[$type]) ? $document_child_types[$type] : 0;
+	}
+	
 }
 
 function get_parent_type($type)
 {
 	global $document_child_types;
-	$child = array_search($type, $document_child_types);
+
+	if($type == ST_FORM8){
+	
+		$child = array_search(ST_SALESINVOICE, $document_child_types);
+	}else{
+		$child = array_search($type, $document_child_types);
+	}
+	
 	return $child ? $child : 0;
 }
 

@@ -138,6 +138,7 @@ $security_areas =array(
 	'SA_SALESORDER' => array(SS_SALES|3, _("Sales orders edition")),
 	'SA_SALESDELIVERY' => array(SS_SALES|4, _("Sales deliveries edition")),
 	'SA_SALESINVOICE' => array(SS_SALES|5, _("Sales invoices edition")),
+	'SA_FORM8' => array(SS_SALES|5, _("Form8 edition")),
 	'SA_SALESCREDITINV' => array(SS_SALES|6, _("Sales credit notes against invoice")),
 	'SA_SALESCREDIT' => array(SS_SALES|7, _("Sales freehand credit notes")),
 	'SA_SALESPAYMNT' => array(SS_SALES|8, _("Customer payments entry")),
